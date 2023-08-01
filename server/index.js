@@ -6,7 +6,6 @@ import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import bodyParser from "body-parser";
-import path from "path";
 import morgan from "morgan";
 dotenv.config();
 const MONGO_URL = process.env.MONGO_URL;
@@ -17,15 +16,10 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "../client/build")));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
-
-app.use("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
 
 mongoose
   .connect(MONGO_URL, {
